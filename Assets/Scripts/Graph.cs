@@ -18,7 +18,12 @@ public class Graph : MonoBehaviour
     [SerializeField]
     FunctionName _function;
 
-    [SerializeField, Range(10, 100)]
+    public enum TransitionMode { Cycle, Random }
+
+    [SerializeField]
+    TransitionMode transitionMode;
+
+    [SerializeField, Range(10, 1000)]
     int _resolution = 10;
 
     [SerializeField, Min(0f)]
@@ -65,7 +70,7 @@ public class Graph : MonoBehaviour
             duration -= functionDuration;
             transitioning = true;
             transitionFunction = _function;
-            _function = GetNextFunctionName(_function);
+            PickNextFunction();
         }
         if (transitioning)
         {
@@ -121,6 +126,13 @@ public class Graph : MonoBehaviour
                 u, v, time, from, to, progress
             );
         }
+    }
+
+    void PickNextFunction()
+    {
+        _function = transitionMode == TransitionMode.Cycle ?
+            GetNextFunctionName(_function) :
+            GetRandomFunctionNameOtherThan(_function);
     }
     #endregion
 }

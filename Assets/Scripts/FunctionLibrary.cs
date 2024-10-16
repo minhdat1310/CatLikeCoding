@@ -17,6 +17,12 @@ public static class FunctionLibrary
         return Vector3.LerpUnclamped(from(u, v, t), to(u, v, t), SmoothStep(0f, 1f, progress));
     }
 
+    public static FunctionName GetRandomFunctionNameOtherThan(FunctionName name)
+    {
+        var choice = (FunctionName)Random.Range(1, _functions.Length);
+        return choice == name ? 0 : choice;
+    }
+
     public static Function GetFunction(FunctionName name)
     {
         return _functions[(int)name];
